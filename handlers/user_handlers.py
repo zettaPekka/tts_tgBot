@@ -2,6 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery, FSInputFile, ContentType
 from aiogram.fsm.context import FSMContext
+import asyncio
 
 from keyboards import user_kbs
 from states.user_states import UserState
@@ -9,6 +10,8 @@ from database.services.user_service import UserService
 from middleware.db_di import DatabaseDI
 from voice.text_to_speach import speechify_text_to_speach
 from config import voice_languages
+
+import os
 
 
 router = Router()
@@ -134,6 +137,8 @@ async def generate_audio(message: Message, state: FSMContext, user_service: User
     amount = -1 * round(len(message.text) / 150) or -1
     await user_service.update_balance(message.from_user.id, amount)
     await state.clear()
+    
+    await asyncio.to_thread(os.remove(audio_path))
 
 
 @router.callback_query(F.data == 'back')

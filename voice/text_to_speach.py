@@ -4,35 +4,12 @@ import os
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from speechify import Speechify
 import aiofiles
 from dotenv import load_dotenv
 import aiohttp
 
 
-
 load_dotenv()
-
-client = Speechify(
-    token=os.getenv('TTS_TOKEN'),
-)
-
-async def text_to_speach(text: str, user_id: int, voice_id: str):
-    model = ''
-    
-    voice = client.tts.audio.speech(
-        input=text,
-        voice_id=voice_id,
-        model=model
-    )
-    audio_bytes = base64.b64decode(voice.audio_data)
-    
-    path = f"audio_{datetime.now().timestamp()}_{user_id}.wav"
-
-    async with aiofiles.open(path, "wb") as f:
-        await f.write(audio_bytes)
-    
-    return path
 
 
 class TextToSpeach(ABC):
