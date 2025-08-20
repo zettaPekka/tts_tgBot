@@ -138,7 +138,7 @@ async def generate_audio(message: Message, state: FSMContext, user_service: User
     await user_service.update_balance(message.from_user.id, amount)
     await state.clear()
     
-    await asyncio.to_thread(os.remove(audio_path))
+    await asyncio.to_thread(os.remove, audio_path)
 
 
 @router.callback_query(F.data == 'back')
