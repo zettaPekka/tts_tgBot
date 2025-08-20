@@ -10,6 +10,7 @@ from database.services.user_service import UserService
 from middleware.db_di import DatabaseDI
 from voice.text_to_speach import speechify_text_to_speach
 from config import voice_languages
+from init_bot import bot
 
 import os
 
@@ -154,6 +155,7 @@ async def generate_audio(
             message.text, user.voice, message.from_user.id
         )
     except:
+        await bot.send_message(int(os.getenv('ADMIN_ID')), 'Произошла ошибка в создании аудио')
         await message.answer("<b>Сервис перегружен, попробуйте немного позже</b>")
         await waiting_message.delete()
         await state.clear()

@@ -7,6 +7,7 @@ import os
 
 from database.services.user_service import UserService
 from middleware.db_di import DatabaseDI
+from init_bot import bot
 
 
 load_dotenv()
@@ -34,6 +35,7 @@ async def dep_balance(message: Message, user_service: UserService):
             user_id = message.text.split()[1]
 
             await user_service.update_balance(user_id, amount)
+            await bot.send_message(user_id, f'<b>Ваш баланс пополнен на {amount} звёзд!</b>')
             await message.answer("Успешно")
         except:
             await message.answer("Что-то пошло не так")
