@@ -15,22 +15,25 @@ router = Router()
 router.message.middleware(DatabaseDI())
 
 
-@router.message(Command('admin'))
+@router.message(Command("admin"))
 async def admin(message: Message, user_service: UserService):
-    if message.from_user.id == int(os.getenv('ADMIN_ID')):
+    if message.from_user.id == int(os.getenv("ADMIN_ID")):
         users = await user_service.get_all()
-        
-        await message.answer(f'Всего пользователей: {len(users)}\n\nЧтобы выдать баланс пропишите команду <code>/dep user_id amount</code>\nПример: <blockquote>/dep 7648439434 10</blockquote>'
-                                '\n\nБилинг - https://console.sws.speechify.com/billing')
 
-@router.message(Command('dep'))
+        await message.answer(
+            f"Всего пользователей: {len(users)}\n\nЧтобы выдать баланс пропишите команду <code>/dep user_id amount</code>\nПример: <blockquote>/dep 7648439434 10</blockquote>"
+            "\n\nБилинг - https://console.sws.speechify.com/billing"
+        )
+
+
+@router.message(Command("dep"))
 async def dep_balance(message: Message, user_service: UserService):
-    if message.from_user.id == int(os.getenv('ADMIN_ID')):
+    if message.from_user.id == int(os.getenv("ADMIN_ID")):
         try:
             amount = int(message.text.split()[-1])
-            user_id = (message.text.split()[1])
-            
+            user_id = message.text.split()[1]
+
             await user_service.update_balance(user_id, amount)
-            await message.answer('Успешно')
+            await message.answer("Успешно")
         except:
-            await message.answer('Что-то пошло не так')
+            await message.answer("Что-то пошло не так")

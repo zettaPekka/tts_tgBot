@@ -9,7 +9,7 @@ from contextlib import asynccontextmanager
 
 load_dotenv()
 
-engine = create_async_engine(os.getenv('DB_PATH'))
+engine = create_async_engine(os.getenv("DB_PATH"))
 session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
 

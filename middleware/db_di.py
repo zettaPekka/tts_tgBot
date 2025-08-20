@@ -17,6 +17,6 @@ class DatabaseDI(BaseMiddleware):
     ):
         async with get_db_session() as session:
             user_service = UserService(session, UserRepo(session))
-            data['user_service'] = user_service
-            
+            data["user_service"] = user_service
+
             return await handler(event, data)
