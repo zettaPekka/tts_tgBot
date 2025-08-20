@@ -2,12 +2,12 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from voice.text_to_speach import speechify_text_to_speach
-from config import voice_languages
+from config import voice_languages, article_link
 
 
 start_kb = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='🗣 Озвучить', callback_data='voice'),
-        InlineKeyboardButton(text='📘 Инструкция', url='https://dfdfdsf.re')],
+        InlineKeyboardButton(text='📘 Инструкция', url=article_link)],
     [InlineKeyboardButton(text='💰 Пополнить баланс', callback_data='deposit')]
 ])
 
