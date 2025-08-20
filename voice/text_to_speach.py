@@ -4,7 +4,7 @@ import os
 from abc import ABC, abstractmethod
 from typing import Literal
 
-from speechify import Speechify, AsyncSpeechify
+from speechify import Speechify
 import aiofiles
 from dotenv import load_dotenv
 import aiohttp

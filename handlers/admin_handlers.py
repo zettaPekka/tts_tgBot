@@ -1,13 +1,10 @@
 from aiogram import Router, F
-from aiogram.types import Message, CallbackQuery, ContentType, LabeledPrice, PreCheckoutQuery
-from aiogram.fsm.context import FSMContext
+from aiogram.types import Message
 from aiogram.filters import Command
 from dotenv import load_dotenv
 
 import os
 
-from keyboards import user_kbs
-from states.user_states import UserState
 from database.services.user_service import UserService
 from middleware.db_di import DatabaseDI
 
