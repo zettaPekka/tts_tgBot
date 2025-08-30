@@ -150,6 +150,7 @@ async def generate_audio(
         return
 
     try:
+        amount = -1 * round(len(message.text) / 150) or -1
         audio_path = await speechify_text_to_speach.text_to_speach(
             message.text, user.voice, message.from_user.id
         )
@@ -165,10 +166,10 @@ async def generate_audio(
     audio = FSInputFile(audio_path, filename="audio @top_voicer_bot")
     await waiting_message.answer_audio(
         audio,
-        caption="<b>⚡️ Все готово! Аудио с вашим текстом сгенерировано, хотите озвучить новый текст?</b>",
+        caption=f"<b>⚡️ Все готово!\n🗣 Голос: {user.voice.title()}\n⭐️ Потрачено: {abs(amount)}\n\nАудио с вашим текстом сгенерировано, хотите озвучить новый текст?</b>",
         reply_markup=user_kbs.voice_kb,
     )
-    amount = -1 * round(len(message.text) / 150) or -1
+    
     await user_service.update_balance(message.from_user.id, amount)
     await state.clear()
 
