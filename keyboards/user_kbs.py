@@ -1,8 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from voice.text_to_speach import speechify_text_to_speach
-from config import voice_languages, article_link
+from voice.speechify_text_to_speach import speechify_text_to_speach
+from config import article_link
 
 
 start_kb = InlineKeyboardMarkup(
@@ -68,7 +68,7 @@ async def voices(gender: str):
     for v in voices:
         kb_builder.add(
             InlineKeyboardButton(
-                text=f"{v.title()} {voice_languages[v]}", callback_data=f"set_voice_{v}"
+                text=f"{v.title()} {speechify_text_to_speach.voice_languages[v]}", callback_data=f"set_voice_{v}"
             )
         )
 

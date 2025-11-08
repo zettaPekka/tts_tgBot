@@ -8,8 +8,7 @@ from keyboards import user_kbs
 from states.user_states import UserState
 from database.services.user_service import UserService
 from middleware.db_di import DatabaseDI
-from voice.text_to_speach import speechify_text_to_speach
-from config import voice_languages
+from voice.speechify_text_to_speach import speechify_text_to_speach
 from init_bot import bot
 
 import os
@@ -81,7 +80,7 @@ async def choose_voice(callback: CallbackQuery):
     gender = callback.data.split("_")[-1]
     voices = await speechify_text_to_speach.get_voices(gender)
 
-    message_text = f'<b>🧍 Здесь предоставлены все доступные голоса выбранного пола:\n<blockquote>{"\n".join([f'{v.title()} {voice_languages[v]}' for v in voices])}</blockquote>\nНажмите на кнопку чтобы выбрать голос</b>'
+    message_text = f'<b>🧍 Здесь предоставлены все доступные голоса выбранного пола:\n<blockquote>{"\n".join([f'{v.title()} {speechify_text_to_speach.voice_languages[v]}' for v in voices])}</blockquote>\nНажмите на кнопку чтобы выбрать голос</b>'
 
     await callback.message.edit_text(
         message_text, reply_markup=await user_kbs.voices(gender)

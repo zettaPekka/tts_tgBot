@@ -1,39 +1,24 @@
-import base64
-from datetime import datetime
-import os
-from abc import ABC, abstractmethod
-from typing import Literal
-
 import aiofiles
 from dotenv import load_dotenv
 import aiohttp
+
+import base64
+from datetime import datetime
+import os
+from typing import Literal
+
+
+from .base_text_to_speach import TextToSpeach
 
 
 load_dotenv()
 
 
-class TextToSpeach(ABC):
-    def __init__(self, voices: dict[str, list], url: str):  # lang: ['voice_id',]
-        self.voices = voices
-        self.url = url
-
-    @abstractmethod
-    async def text_to_speach(text: str, voice_id: str, user_id: int) -> str:
-        pass
-
-    @abstractmethod
-    async def get_voices(self, gender: Literal["man", "woman"]) -> list[str]:
-        pass
-
-    @abstractmethod
-    async def save_audio(self, audio_data: str, user_id: int) -> str:
-        pass
-
-
 class SpeechifyTextToSpeach(TextToSpeach):
-    def __init__(self, voices: dict[str, list], url: str):
+    def __init__(self, voices: dict[str, list], url: str, voice_languages):
         self.voices = voices
         self.url = url
+        self.voice_languages = voice_languages
 
     async def text_to_speach(self, text: str, voice_id: str, user_id: int) -> str:
         model = "simba-multilingual"
@@ -70,4 +55,18 @@ speechify_text_to_speach = SpeechifyTextToSpeach(
         "woman": ["olga", "ludmila", "irina", "lisa", "lindsey", "evelyn"],
     },
     url="https://api.sws.speechify.com/v1/audio/speech",
+    voice_languages = {
+        "mikhail": "RU 🇷🇺",
+        "fedor": "RU 🇷🇺",
+        "vladislav": "RU 🇷🇺",
+        "oliver": "EN 🇺🇸",
+        "george": "EN 🇺🇸",
+        "henry": "EN 🇺🇸",
+        "olga": "RU 🇷🇺",
+        "ludmila": "RU 🇷🇺",
+        "irina": "RU 🇷🇺",
+        "lisa": "EN 🇺🇸",
+        "lindsey": "EN 🇺🇸",
+        "evelyn": "EN 🇺🇸",
+    }
 )
